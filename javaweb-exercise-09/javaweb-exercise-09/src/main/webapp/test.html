@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="BIG5">
+<title>Insert title here</title>
+</head>
+<body>
+		<input type="file">
+		<br>
+		<button>Upload</button>
+		<br>
+		<img>
+</body>
+
+	<script>
+	const input = document.querySelector('input');
+	const button = document.querySelector('button');
+	const img = document.querySelector('img');
+	input.addEventListener('change', () => {
+		img.src = URL.createObjectURL(input.files[0]);
+	});
+	
+	button.addEventListener('click', () => {
+        const fileReader = new FileReader();
+        fileReader.onload = event => {
+            const base64Str = btoa(event.target.result);
+                fetch('test', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        img: base64Str
+                    })
+                });
+            };
+            fileReader.readAsBinaryString(input.files[0]);
+    });
+	
+	
+	
+	</script>
+</html>
